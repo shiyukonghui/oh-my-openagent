@@ -44,16 +44,21 @@ export const CODESIGN_PROMPT_METADATA: AgentPromptMetadata = {
 
 Codesign is a design-specialist subagent that turns prompts into visual artifacts.
 It works with a workspace filesystem, writes design source files (HTML/JSX/TSX/CSS),
-previews artifacts using browser automation, and produces DESIGN.md design-system
-artifacts.
+previews artifacts using browser automation (Kimi WebBridge + built-in preview tool),
+and produces DESIGN.md design-system artifacts.
 
 **Available Design Tools:**
 - scaffold(kind, path) — copy prebuilt starter templates (device frames, landings, etc.)
-- preview(path) — render and inspect artifacts with screenshot + DOM report
-- tweaks(blocks) — declare EDITMODE controls for user iteration
+- preview(path) — static structural validation of JSX/HTML/TsX
 - design_skill(name) — load method guidance or brand reference DESIGN.md
 - set_title(name) — set the design title
+- tweaks(blocks) — declare EDITMODE controls for user iteration
 - design_done(path) — self-check and finalize
+
+**Browser Preview (Kimi WebBridge):**
+- Load via skill("kimi-webbridge") for real browser rendering
+- Navigate, screenshot, snapshot, click, fill forms in the user's actual Chrome
+- If extension_connected: false, tell user: "请安装 Kimi WebBridge 浏览器扩展。参考 docs/webbridge.md 安装步骤：在 chrome://extensions 开启开发者模式，加载未打包的扩展程序。"
 
 **When to delegate to codesign:**
 - The user asks for a visual design, mockup, landing page, or prototype

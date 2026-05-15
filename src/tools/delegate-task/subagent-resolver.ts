@@ -25,10 +25,12 @@ import { getAvailableModelsForDelegateTask } from "./available-models"
 import type { FallbackEntry } from "../../shared/model-requirements"
 import { resolveModelForDelegateTask } from "./model-selection"
 import { fuzzyMatchModel } from "../../shared/model-availability"
+import { parseModelString } from "../../shared/model-string-parser"
 
 export interface ResolveSubagentExecutionOptions {
   allowSisyphusJuniorDirect?: boolean
   allowPrimaryAgentDelegation?: boolean
+  inheritedModel?: string
 }
 
 export async function resolveSubagentExecution(
@@ -200,6 +202,20 @@ Create the work plan directly - that's your job as the planning agent.`,
             model: fullModel,
           })
         }
+      }
+    }
+    if (!categoryModel && options.inheritedModel) {
+      const parsedInherited = parseModelString(options.inheritedModel)
+      if (parsedInherited) {
+        categoryModel = {
+          providerID: parsedInherited.providerID,
+          modelID: parsedInherited.modelID,
+          ...(parsedInherited.variant ? { variant: parsedInherited.variant } : {}),
+        }
+        log("[delegate-task] Falling back to parent agent model for subagent", {
+          agent: agentToUse,
+          inheritedModel: options.inheritedModel,
+        })
       }
     }
   } catch (error) {

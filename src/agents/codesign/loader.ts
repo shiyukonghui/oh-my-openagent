@@ -2,43 +2,46 @@
  * Loads codesign prompt section text from co-located `sections/*.md` files.
  *
  * Each section lives as its own `.md` file so PR diffs and git blame read
- * cleanly. Files are read at module-load time and exposed as frozen string
- * constants. Trailing `\n` (from editors adding final newline) is stripped.
+ * cleanly. Content is inlined at build time via Bun's text import attribute
+ * (`with { type: "text" }`) — zero runtime filesystem dependency and zero
+ * filesystem churn in production builds.
  *
- * Path resolution uses `import.meta.url` — this file must stay co-located
- * with the `sections/` directory it reads from.
+ * At dev time (`bun` / `bun test` direct execution), Bun resolves the
+ * imports from disk automatically.
  *
- * This loader follows the same pattern used by open-codesign's prompt
- * section loader, enabling direct file sync when upstream updates.
+ * This loader follows the same section naming convention used by
+ * open-codesign's prompt section loader, enabling direct file sync
+ * when upstream updates.
  */
-import { readFileSync } from "node:fs"
-import path from "node:path"
-import { fileURLToPath } from "node:url"
+import identity from "./sections/identity.md" with { type: "text" }
+import workflow from "./sections/workflow.md" with { type: "text" }
+import outputRules from "./sections/output-rules.md" with { type: "text" }
+import designMethodology from "./sections/design-methodology.md" with { type: "text" }
+import preFlight from "./sections/pre-flight.md" with { type: "text" }
+import editmodeProtocol from "./sections/editmode-protocol.md" with { type: "text" }
+import tweaksProtocol from "./sections/tweaks-protocol.md" with { type: "text" }
+import antiSlopDigest from "./sections/anti-slop-digest.md" with { type: "text" }
+import safety from "./sections/safety.md" with { type: "text" }
+import brandAcquisition from "./sections/brand-acquisition.md" with { type: "text" }
+import multiScreenBaton from "./sections/multi-screen-baton.md" with { type: "text" }
+import browserPreview from "./sections/browser-preview.md" with { type: "text" }
 
-const here = path.dirname(fileURLToPath(import.meta.url))
-
-function load(name: string): string {
-  try {
-    const raw = readFileSync(path.join(here, "sections", `${name}.md`), "utf-8")
-    return raw.endsWith("\n") ? raw.slice(0, -1) : raw
-  } catch {
-    // Return empty string if section file doesn't exist yet.
-    // Sections are populated in Phase 2 of the migration.
-    return ""
-  }
+function stripTrailingNewline(raw: string): string {
+  return raw.endsWith("\n") ? raw.slice(0, -1) : raw
 }
 
-export const IDENTITY = load("identity")
-export const WORKFLOW = load("workflow")
-export const OUTPUT_RULES = load("output-rules")
-export const DESIGN_METHODOLOGY = load("design-methodology")
-export const PRE_FLIGHT = load("pre-flight")
-export const EDITMODE_PROTOCOL = load("editmode-protocol")
-export const TWEAKS_PROTOCOL = load("tweaks-protocol")
-export const ANTI_SLOP_DIGEST = load("anti-slop-digest")
-export const SAFETY = load("safety")
-export const BRAND_ACQUISITION = load("brand-acquisition")
-export const MULTI_SCREEN_BATON = load("multi-screen-baton")
+export const IDENTITY = stripTrailingNewline(identity)
+export const WORKFLOW = stripTrailingNewline(workflow)
+export const OUTPUT_RULES = stripTrailingNewline(outputRules)
+export const DESIGN_METHODOLOGY = stripTrailingNewline(designMethodology)
+export const PRE_FLIGHT = stripTrailingNewline(preFlight)
+export const EDITMODE_PROTOCOL = stripTrailingNewline(editmodeProtocol)
+export const TWEAKS_PROTOCOL = stripTrailingNewline(tweaksProtocol)
+export const ANTI_SLOP_DIGEST = stripTrailingNewline(antiSlopDigest)
+export const SAFETY = stripTrailingNewline(safety)
+export const BRAND_ACQUISITION = stripTrailingNewline(brandAcquisition)
+export const MULTI_SCREEN_BATON = stripTrailingNewline(multiScreenBaton)
+export const BROWSER_PREVIEW = stripTrailingNewline(browserPreview)
 
 export const PROMPT_SECTIONS: Record<string, string> = {
   identity: IDENTITY,
@@ -52,6 +55,7 @@ export const PROMPT_SECTIONS: Record<string, string> = {
   safety: SAFETY,
   brandAcquisition: BRAND_ACQUISITION,
   multiScreenBaton: MULTI_SCREEN_BATON,
+  browserPreview: BROWSER_PREVIEW,
 }
 
 export const PROMPT_SECTION_FILES: Record<keyof typeof PROMPT_SECTIONS, string> = {
@@ -66,4 +70,5 @@ export const PROMPT_SECTION_FILES: Record<keyof typeof PROMPT_SECTIONS, string> 
   safety: "sections/safety.md",
   brandAcquisition: "sections/brand-acquisition.md",
   multiScreenBaton: "sections/multi-screen-baton.md",
+  browserPreview: "sections/browser-preview.md",
 }

@@ -15,12 +15,14 @@ import {
   SAFETY,
   BRAND_ACQUISITION,
   MULTI_SCREEN_BATON,
+  BROWSER_PREVIEW,
 } from "./loader"
 
 export function composeSystemPrompt(): string {
   const sections: string[] = [
     IDENTITY,
     WORKFLOW,
+    BROWSER_PREVIEW,
     OUTPUT_RULES,
     DESIGN_METHODOLOGY,
     PRE_FLIGHT,

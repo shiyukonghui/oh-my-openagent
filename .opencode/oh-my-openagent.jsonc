@@ -1,0 +1,10 @@
+{
+  "agents": {
+    "codesign": {
+      "model": "deepseek/deepseek-v4-pro"
+    }
+  },
+  "browser_automation_engine": {
+    "provider": "playwright"
+  }
+}
