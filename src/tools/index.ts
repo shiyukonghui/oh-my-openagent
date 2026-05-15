@@ -46,6 +46,14 @@ export {
 export { createHashlineEditTool } from "./hashline-edit"
 export { createTeamSendMessageTool } from "../features/team-mode/tools/messaging"
 
+// Design tools (codesign agent)
+export { createSetTitleTool } from "./set-title"
+export { createDesignSkillTool } from "./design-skill"
+export { createScaffoldTool } from "./scaffold"
+export { createDesignDoneTool } from "./design-done"
+export { createTweaksTool } from "./tweaks"
+export { createPreviewTool } from "./preview"
+
 export function createBackgroundTools(manager: BackgroundManager, client: OpencodeClient): Record<string, ToolDefinition> {
   const outputManager: BackgroundOutputManager = manager
   const cancelClient: BackgroundCancelClient = client

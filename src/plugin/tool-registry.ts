@@ -44,6 +44,9 @@ import {
   createTaskUpdateTool,
   createHashlineEditTool,
 } from "../tools"
+
+// Design tools (codesign agent)
+import { createSetTitleTool, createDesignSkillTool, createScaffoldTool, createDesignDoneTool, createTweaksTool, createPreviewTool } from "../tools"
 import { getMainSessionID } from "../features/claude-code-session-state"
 import { filterDisabledTools } from "../shared/disabled-tools"
 import { isTaskSystemEnabled, log } from "../shared"
@@ -354,6 +357,13 @@ export function createToolRegistry(args: {
     ...teamModeToolsRecord,
     ...taskToolsRecord,
     ...hashlineToolsRecord,
+    // Design tools (codesign agent)
+    set_title: createSetTitleTool(ctx),
+    design_skill: createDesignSkillTool(ctx),
+    scaffold: createScaffoldTool(ctx),
+    design_done: createDesignDoneTool(ctx),
+    tweaks: createTweaksTool(ctx),
+    preview: createPreviewTool(ctx),
   }
 
   for (const toolDefinition of Object.values(allTools)) {
