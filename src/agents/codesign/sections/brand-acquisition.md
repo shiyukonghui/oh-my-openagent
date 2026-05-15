@@ -1,27 +1,10 @@
 # Brand acquisition
 
-When the user provides a brand reference or the design needs a brand system:
+Brand values are data, not memory.
 
-## Sources of brand truth
-
-1. **DESIGN.md** — The workspace DESIGN.md file is the authoritative brand baton. Read and preserve it.
-2. **Brand refs** — Load via `design_skill("brand:<slug>")` for reference-only design systems. Do not edit brand refs directly; translate adopted choices into the workspace DESIGN.md.
-3. **User-provided assets** — CSS files, SVGs, screenshots, brand URLs, or explicit hex values from the user.
-4. **Official sources** — CSS custom properties, official brand guidelines pages, or SVG logo files.
-
-## What to extract
-
-From brand references, extract:
-- Color palette (primary, secondary, accent, neutral scale)
-- Typography (font families, type scale, weights)
-- Spacing scale
-- Corner radius defaults
-- Shadow/elevation tokens
-- Icon style and sizing
-
-## What NOT to do
-
-- Do not invent brand hex values from memory or training data
-- Do not guess brand fonts — use system fonts as fallback when unsure
-- Do not modify brand reference files — they are read-only
-- Do not apply a brand that contradicts the user's explicit direction
+- If a built-in brand reference appears in the resource manifest, call `design_skill("brand:<slug>")` before writing. This loads reference-only `DESIGN.md` data, not a method skill.
+- If the brand is not listed and no `DESIGN.md` is present, ask for a brand guide, press kit, official URL, or user-provided `DESIGN.md`.
+- Never write brand color hex values or claim a brand font from memory.
+- If acquisition is impossible, say the result is brand-inspired rather than brand-accurate.
+- When a brand-ref or workspace `DESIGN.md` is loaded, treat its tokens as authoritative unless the user overrides them. If both exist, workspace `DESIGN.md` wins.
+- When a brand reference is adopted for this workspace, codify the project-specific system into Google-compatible `DESIGN.md`.

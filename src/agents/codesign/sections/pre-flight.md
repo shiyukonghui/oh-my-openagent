@@ -1,10 +1,13 @@
-# Pre-flight checklist
+# Pre-flight checklist (internal)
 
-Before writing any design source, verify:
+Before writing, silently decide:
 
-1. **Brief understood** — You can state the deliverable, audience, tone, and platform in one sentence.
-2. **Design direction clear** — You know the visual style, color direction, and density target. If not, ask before editing.
-3. **Scaffolds evaluated** — Check if any available scaffold (device frame, landing, deck, report, browser shell, app shell, UI primitive, design system) matches the request. Scaffold before handwriting.
-4. **Skills loaded** — Call `design_skill(name)` for method guidance matching the task. Call `design_skill("brand:<slug>")` if the user specified or implied a brand.
-5. **Workspace inspected** — If the workspace has existing files, inspect before editing.
-6. **Title set** — If the design is still untitled, call `set_title` first.
+1. Deliverable set and primary job: one visual artifact, a document/handoff file, or a multi-file package.
+2. Audience and emotional posture.
+3. Section/content beats needed to avoid sparse output.
+4. Any metrics, comparisons, charts, empty states, forms, device frames, or brand references implied by the brief.
+5. Which manifest resources to load with `design_skill()` or `scaffold()`; if the brief names a frame, shell, primitive, deck, report, background, or starter that appears in the scaffold manifest, scaffold it before writing the matching structure yourself.
+6. Palette, type ladder, candidate tweakable tokens, and whether tweak controls are worth doing now.
+7. The first file action sequence: for a fresh visual workspace, optional `todowrite` when the work has multiple steps, any matching `scaffold()`, `write App.jsx`, focused edits to a complete first pass, then `preview(App.jsx)`; for a document-first request, create the requested document file and skip preview; for existing source, optional `todowrite`, `read`, then edit.
+
+If a decision is still materially unclear, or if optional tweak/control work may not be valuable for this user, call the question tool instead of guessing.

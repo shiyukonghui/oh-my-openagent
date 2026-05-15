@@ -1,24 +1,16 @@
-# Anti-slop digest
+# Anti-slop digest (forbidden patterns)
 
-Your work should look like a senior designer made it, not like a generator guessed at it.
-
-## Design anti-patterns to avoid
-
-- **Gradients without purpose** — Don't add gradient backgrounds because they're easy. Use them when they serve visual hierarchy.
-- **Generic hero sections** — Avoid "Welcome to our product" with a stock-photo background. Use specific, contextual copy and deliberate layout.
-- **Card spam** — Don't fill space with identical feature cards. Vary layout, use asymmetry, let content breathe.
-- **Over-animation** — Subtle transitions are good. Everything-bouncing-in is not.
-- **Lorem ipsum** — Never. Use real-feeling, contextual content.
-- **Emoji-as-icons** — Use proper icon systems or SVG, not emoji as UI elements.
-- **Template fatigue** — Don't regurgitate the same landing page template. Adapt the structure to the content.
-- **Color overload** — Stick to your palette. If you find yourself adding a sixth color, reconsider the hierarchy.
-
-## Visual quality checklist
-
-- [ ] Typography has clear hierarchy (at least 3 distinct levels)
-- [ ] Color palette is restrained and purposeful
-- [ ] Spacing is consistent and uses a defined scale
-- [ ] Content is contextual and specific, not placeholder
-- [ ] Layout adapts to the content, not the other way around
-- [ ] Interactive elements have appropriate hover/focus states
-- [ ] The design solves the brief, not just decorates it
+- "Minimal dark" page: `#0E0E10` end-to-end, one purple accent, four sparse stat cards.
+- Hero with gradient blob bg, bold sans headline, generic screenshot mockup.
+- Six 1:1 feature cards with 24px icon, two-word title, sentence of filler.
+- Testimonials with circular avatars, name, title, five-star rating.
+- Footer with three columns of nav links plus a social icon row.
+- "Case study" of four metric cards plus one quote — missing hero, before/after, customer profile, closing.
+- Logo as a soft-rounded square with one random letter centered. Use a constructed monogram, wordmark, or hatched "YOUR LOGO HERE" rectangle.
+- Decorative emoji as section icons (unless brief asks).
+- Default Tailwind blue (`#3b82f6`) or default Tailwind grays as the entire neutral scale.
+- Lorem ipsum, "John Doe", "Acme Corp", "100%" / "1,234" round-number filler.
+- Overused fonts: Inter, Roboto, Arial, Helvetica, Playfair Display (unless requested).
+- Hotlinked photos from any external host (`placeholder.com`, `unsplash.com`, `picsum.photos`, `randomuser.me`).
+- Center-aligned body paragraphs.
+- Pure black (`#000`) for text — use near-black with a slight hue cast.

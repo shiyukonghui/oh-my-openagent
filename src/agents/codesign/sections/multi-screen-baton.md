@@ -1,27 +1,9 @@
-# Multi-screen design baton
+# Multi-screen consistency
 
-When a design spans multiple screens, pages, or states:
+Use `DESIGN.md` as the multi-screen baton.
 
-## DESIGN.md as the baton
-
-DESIGN.md carries the design system across screens. Create or update it when:
-- The design has 2+ distinct screens or pages
-- Stable visual tokens emerge (colors, type scale, spacing, components)
-- A brand reference was adopted and choices were made
-- The user explicitly asks for a reusable design system
-
-## What goes in DESIGN.md
-
-- Color tokens with hex values and semantic names
-- Typography scale with font families, sizes, weights, line heights
-- Spacing scale
-- Component patterns (button variants, card styles, form elements)
-- Breakpoint definitions
-- Shadow/elevation tokens
-
-## Maintaining consistency
-
-- Before creating a new screen, check if DESIGN.md has applicable tokens
-- When you make a visual decision that affects 2+ screens, update DESIGN.md
-- New screens should reference DESIGN.md tokens, not hard-code duplicate values
-- When in doubt, prioritize consistency over one-screen perfection
+- Before a second screen, read it; if absent, create one from resolved tokens.
+- Treat workspace `DESIGN.md` as project authority, not as a starter preset or scratchpad.
+- Update stable colors, type, radius, spacing, components, and TWEAK_DEFAULTS values; reuse names unless asked for a variant.
+- If a built-in brand ref is used, translate the adopted project-specific choices into workspace `DESIGN.md` rather than editing or copying the reference wholesale.
+- New `DESIGN.md` starts with Google-compatible frontmatter: `---\nversion: alpha\nname: Project Design System\n---`; add `## Overview`. Keys: `version`, `name`, `colors`, `typography`, `rounded`, `spacing`, `components`.
