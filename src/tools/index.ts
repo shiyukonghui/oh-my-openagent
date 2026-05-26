@@ -44,6 +44,7 @@ export {
   createTaskUpdateTool,
 } from "./task"
 export { createHashlineEditTool } from "./hashline-edit"
+export { createCodesignDoneTool, createCodesignImageTool, createCodesignScaffoldTool, createCodesignTweaksTool, createCodesignPreviewTool, createCodesignAskTool } from "./codesign"
 export { createTeamSendMessageTool } from "../features/team-mode/tools/messaging"
 
 export function createBackgroundTools(manager: BackgroundManager, client: OpencodeClient): Record<string, ToolDefinition> {

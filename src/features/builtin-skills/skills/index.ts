@@ -6,3 +6,17 @@ export { devBrowserSkill } from "./dev-browser"
 export { reviewWorkSkill } from "./review-work"
 export { aiSlopRemoverSkill } from "./ai-slop-remover"
 export * from "./team-mode"
+export {
+  designSlidesSkill,
+  designDashboardSkill,
+  designLandingPageSkill,
+  designSvgChartsSkill,
+  designGlassmorphismSkill,
+  designEditorialSkill,
+  designHeroSectionSkill,
+  designPricingPageSkill,
+  designFooterDesignSkill,
+  designChatUiSkill,
+  designDataTableSkill,
+  designCalendarDesignSkill,
+} from "./design"

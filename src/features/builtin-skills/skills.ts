@@ -11,16 +11,29 @@ import {
   reviewWorkSkill,
   aiSlopRemoverSkill,
   teamModeSkill,
+  designSlidesSkill,
+  designDashboardSkill,
+  designLandingPageSkill,
+  designSvgChartsSkill,
+  designGlassmorphismSkill,
+  designEditorialSkill,
+  designHeroSectionSkill,
+  designPricingPageSkill,
+  designFooterDesignSkill,
+  designChatUiSkill,
+  designDataTableSkill,
+  designCalendarDesignSkill,
 } from "./skills/index"
 
 export interface CreateBuiltinSkillsOptions {
   browserProvider?: BrowserAutomationProvider
   disabledSkills?: Set<string>
   teamModeEnabled?: boolean
+  currentAgent?: string
 }
 
 export function createBuiltinSkills(options: CreateBuiltinSkillsOptions = {}): BuiltinSkill[] {
-  const { browserProvider = "playwright", disabledSkills, teamModeEnabled = false } = options
+  const { browserProvider = "playwright", disabledSkills, teamModeEnabled = false, currentAgent } = options
 
   let browserSkill: BuiltinSkill
 	if (browserProvider === "agent-browser") {
@@ -33,15 +46,39 @@ export function createBuiltinSkills(options: CreateBuiltinSkillsOptions = {}): B
 		browserSkill = playwrightSkill
 	}
 
-	const skills = [browserSkill, frontendUiUxSkill, gitMasterSkill, reviewWorkSkill, aiSlopRemoverSkill]
+	const skills = [
+		browserSkill,
+		frontendUiUxSkill,
+		gitMasterSkill,
+		reviewWorkSkill,
+		aiSlopRemoverSkill,
+		designSlidesSkill,
+		designDashboardSkill,
+		designLandingPageSkill,
+		designSvgChartsSkill,
+		designGlassmorphismSkill,
+		designEditorialSkill,
+		designHeroSectionSkill,
+		designPricingPageSkill,
+		designFooterDesignSkill,
+		designChatUiSkill,
+		designDataTableSkill,
+		designCalendarDesignSkill,
+	]
 
   if (teamModeEnabled && !disabledSkills?.has("team-mode")) {
     skills.push(teamModeSkill)
   }
 
-  if (!disabledSkills) {
-    return skills
+  let result = skills
+
+  if (currentAgent) {
+    result = result.filter((skill) => !skill.agent || skill.agent === currentAgent)
   }
 
-  return skills.filter((skill) => !disabledSkills.has(skill.name))
+  if (!disabledSkills) {
+    return result
+  }
+
+  return result.filter((skill) => !disabledSkills.has(skill.name))
 }

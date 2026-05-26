@@ -43,6 +43,12 @@ import {
   createTaskList,
   createTaskUpdateTool,
   createHashlineEditTool,
+  createCodesignDoneTool,
+  createCodesignImageTool,
+  createCodesignScaffoldTool,
+  createCodesignTweaksTool,
+  createCodesignPreviewTool,
+  createCodesignAskTool,
 } from "../tools"
 import { getMainSessionID } from "../features/claude-code-session-state"
 import { filterDisabledTools } from "../shared/disabled-tools"
@@ -71,6 +77,12 @@ type ToolRegistryFactories = {
   createTaskList: typeof createTaskList
   createTaskUpdateTool: typeof createTaskUpdateTool
   createHashlineEditTool: typeof createHashlineEditTool
+  createCodesignDoneTool: typeof createCodesignDoneTool
+  createCodesignImageTool: typeof createCodesignImageTool
+  createCodesignScaffoldTool: typeof createCodesignScaffoldTool
+  createCodesignTweaksTool: typeof createCodesignTweaksTool
+  createCodesignPreviewTool: typeof createCodesignPreviewTool
+  createCodesignAskTool: typeof createCodesignAskTool
   createTeamApproveShutdownTool: typeof createTeamApproveShutdownTool
   createTeamCreateTool: typeof createTeamCreateTool
   createTeamDeleteTool: typeof createTeamDeleteTool
@@ -104,6 +116,12 @@ const defaultToolRegistryFactories: ToolRegistryFactories = {
   createTaskList,
   createTaskUpdateTool,
   createHashlineEditTool,
+  createCodesignDoneTool,
+  createCodesignImageTool,
+  createCodesignScaffoldTool,
+  createCodesignTweaksTool,
+  createCodesignPreviewTool,
+  createCodesignAskTool,
   createTeamApproveShutdownTool,
   createTeamCreateTool,
   createTeamDeleteTool,
@@ -142,6 +160,12 @@ const LOW_PRIORITY_TOOL_ORDER = [
   "ast_grep_search",
   "glob",
   "grep",
+  "codesign_done",
+  "codesign_image",
+  "codesign_scaffold",
+  "codesign_tweaks",
+  "codesign_preview",
+  "codesign_ask",
   "skill_mcp",
   "skill",
   "task",
@@ -350,6 +374,12 @@ export function createToolRegistry(args: {
     task: delegateTask,
     skill_mcp: skillMcpTool,
     skill: skillTool,
+    ...factories.createCodesignDoneTool(ctx),
+    ...factories.createCodesignImageTool(ctx),
+    ...factories.createCodesignScaffoldTool(ctx),
+    ...factories.createCodesignTweaksTool(ctx),
+    ...factories.createCodesignPreviewTool(ctx),
+    ...factories.createCodesignAskTool(ctx),
     ...(interactiveBashEnabled ? { interactive_bash: factories.interactive_bash } : {}),
     ...teamModeToolsRecord,
     ...taskToolsRecord,

@@ -230,6 +230,10 @@ export async function applyAgentConfig(params: {
       agentConfig["atlas"] = builtinAgents.atlas;
     }
 
+    if (builtinAgents.codesign) {
+      agentConfig["codesign"] = builtinAgents.codesign;
+    }
+
     agentConfig["sisyphus-junior"] = createSisyphusJuniorAgentWithOverrides(
       params.pluginConfig.agents?.["sisyphus-junior"],
       (builtinAgents.atlas as { model?: string } | undefined)?.model,

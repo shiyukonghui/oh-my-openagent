@@ -1,0 +1,4 @@
+allowBuilds:
+  '@ast-grep/cli': set this to true or false
+  '@code-yeongyu/comment-checker': set this to true or false
+  msgpackr-extract: set this to true or false

@@ -187,6 +187,15 @@ export const AGENT_MODEL_REQUIREMENTS: Record<string, ModelRequirement> = {
       { providers: ["opencode"], model: "big-pickle" },
     ],
   },
+  codesign: {
+    fallbackChain: [
+      { providers: ["anthropic", "github-copilot", "opencode"], model: "claude-sonnet-4-6" },
+      { providers: ["openai", "github-copilot", "opencode"], model: "gpt-5.5", variant: "medium" },
+      { providers: ["anthropic", "github-copilot"], model: "claude-opus-4-7", variant: "max" },
+      { providers: ["google", "github-copilot"], model: "gemini-3.1-pro" },
+      { providers: ["zai-coding-plan", "opencode"], model: "glm-5.1" },
+    ],
+  },
 };
 
 export const CATEGORY_MODEL_REQUIREMENTS: Record<string, ModelRequirement> = {
