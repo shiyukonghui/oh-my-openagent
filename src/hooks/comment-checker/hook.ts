@@ -35,14 +35,22 @@ import { tmpdir } from "os"
 import { join } from "path"
 
 const DEBUG = process.env.COMMENT_CHECKER_DEBUG === "1"
-const DEBUG_FILE = join(tmpdir(), "comment-checker-debug.log")
+let debugFilePath: string | null = null
+
+function getDebugFile(): string {
+  if (!debugFilePath) {
+    const tmp = tmpdir()
+    debugFilePath = tmp ? join(tmp, "comment-checker-debug.log") : join(".", "comment-checker-debug.log")
+  }
+  return debugFilePath
+}
 
 function debugLog(...args: unknown[]) {
   if (DEBUG) {
     const msg = `[${new Date().toISOString()}] [comment-checker:hook] ${args
       .map((a) => (typeof a === "object" ? JSON.stringify(a, null, 2) : String(a)))
       .join(" ")}\n`
-    fs.appendFileSync(DEBUG_FILE, msg)
+    fs.appendFileSync(getDebugFile(), msg)
   }
 }
 

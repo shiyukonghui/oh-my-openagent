@@ -1,10 +1,12 @@
 import { mkdir, stat, readdir, copyFile } from "node:fs/promises"
-import { join, basename } from "node:path"
+import { join, basename, dirname } from "node:path"
+import { fileURLToPath } from "node:url"
 import type { PluginInput } from "@opencode-ai/plugin"
 import { tool, type ToolDefinition } from "@opencode-ai/plugin/tool"
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
 const TEMPLATES_DIR = join(
-  import.meta.dir,
+  __dirname,
   "..",
   "..",
   "..",

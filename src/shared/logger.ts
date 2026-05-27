@@ -4,7 +4,15 @@ import * as path from "path"
 
 import { LOG_FILENAME } from "./plugin-identity"
 
-const logFile = path.join(os.tmpdir(), LOG_FILENAME)
+let logFile: string | null = null
+
+function getLogFile(): string {
+  if (!logFile) {
+    const tmp = os.tmpdir()
+    logFile = tmp ? path.join(tmp, LOG_FILENAME) : path.join(".", LOG_FILENAME)
+  }
+  return logFile
+}
 
 let buffer: string[] = []
 let flushTimer: ReturnType<typeof setTimeout> | null = null
@@ -16,7 +24,7 @@ function flush(): void {
   const data = buffer.join("")
   buffer = []
   try {
-    fs.appendFileSync(logFile, data)
+    fs.appendFileSync(getLogFile(), data)
   } catch {
   }
 }
@@ -44,5 +52,5 @@ export function log(message: string, data?: unknown): void {
 }
 
 export function getLogFilePath(): string {
-  return logFile
+  return getLogFile()
 }
