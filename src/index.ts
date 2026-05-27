@@ -1,3 +1,26 @@
+import { appendFileSync } from "node:fs"
+import { tmpdir } from "node:os"
+import { join } from "node:path"
+
+const CRASH_LOG = join(tmpdir(), "omo-crash-debug.log")
+function crashLog(msg: string) {
+  try { appendFileSync(CRASH_LOG, `${new Date().toISOString()} ${msg}\n`) } catch {}
+}
+
+crashLog("=== PLUGIN MODULE LOADED ===")
+
+process.prependListener("uncaughtException", (error) => {
+  crashLog(`UNCAUGHT_EXCEPTION name=${error?.name} message=${error?.message} stack=${String(error?.stack ?? "").slice(0, 600)}`)
+})
+
+process.prependListener("unhandledRejection", (reason) => {
+  crashLog(`UNHANDLED_REJECTION reason=${String(reason).slice(0, 600)}`)
+})
+
+process.on("exit", (code) => {
+  crashLog(`PROCESS_EXIT code=${code}`)
+})
+
 import { initConfigContext } from "./cli/config-manager/config-context"
 import type { Hooks, Plugin, PluginModule } from "@opencode-ai/plugin"
 

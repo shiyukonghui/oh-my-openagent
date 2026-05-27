@@ -2,6 +2,14 @@ import type { OhMyOpenCodeConfig } from "../config";
 import type { PluginInput } from "@opencode-ai/plugin";
 import type { PluginContext } from "./types";
 
+import { appendFileSync } from "node:fs"
+import { tmpdir } from "node:os"
+import { join } from "node:path"
+const CRASH_LOG = join(tmpdir(), "omo-crash-debug.log")
+function crashLog(msg: string) {
+  try { appendFileSync(CRASH_LOG, `${new Date().toISOString()} ${msg}\n`) } catch {}
+}
+
 import {
   clearSessionAgent,
   getMainSessionID,
@@ -411,6 +419,8 @@ export function createEventHandler(args: {
   };
 
   return async (input): Promise<void> => {
+    crashLog(`EVENT_START type=${input.event.type} sessionID=${getEventSessionID(input) ?? "?"}`)
+
     pruneRecentSyntheticIdles({
       recentSyntheticIdles,
       recentRealIdles,
@@ -515,6 +525,7 @@ export function createEventHandler(args: {
     }
 
     if (event.type === "session.deleted") {
+      crashLog(`SESSION_DELETED_START sessionID=${resolveSessionEventID(props) ?? "?"}`)
       const sessionID = resolveSessionEventID(props);
       if (sessionID === getMainSessionID()) {
         setMainSession(undefined);
@@ -552,17 +563,33 @@ export function createEventHandler(args: {
           subagentSessions.delete(sessionID);
         }
         deleteSessionTools(sessionID);
-        await managers.skillMcpManager.disconnectSession(sessionID);
-        await lspManager.cleanupTempDirectoryClients();
+        try {
+          await managers.skillMcpManager.disconnectSession(sessionID);
+        } catch (error) {
+          log("[event] skillMcpManager.disconnectSession error:", { sessionID, error });
+        }
+
+        try {
+          await lspManager.cleanupTempDirectoryClients();
+        } catch (error) {
+          log("[event] lspManager.cleanupTempDirectoryClients error:", { sessionID, error });
+        }
+
         if (tmuxIntegrationEnabled) {
-          await managers.tmuxSessionManager.onSessionDeleted({
-            sessionID,
-          });
+          try {
+            await managers.tmuxSessionManager.onSessionDeleted({
+              sessionID,
+            });
+          } catch (error) {
+            log("[event] tmuxSessionManager.onSessionDeleted error:", { sessionID, error });
+          }
         }
       }
 
       await runEventHookSafely("teamLeadOrphanHandler", teamLeadOrphanHandler, input);
       await runEventHookSafely("teamMemberStatusHandler", teamMemberStatusHandler, input);
+
+      crashLog(`SESSION_DELETED_END sessionID=${resolveSessionEventID(props) ?? "?"}`)
     }
 
     if (event.type === "message.removed") {
@@ -836,5 +863,7 @@ export function createEventHandler(args: {
 
       await runEventHookSafely("teamMemberErrorHandler", teamMemberErrorHandler, input);
     }
+
+    crashLog(`EVENT_END type=${input.event.type}`)
   };
 }

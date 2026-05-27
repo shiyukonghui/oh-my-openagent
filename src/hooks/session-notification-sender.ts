@@ -54,6 +54,7 @@ export async function sendSessionNotification(
   title: string,
   message: string
 ): Promise<void> {
+  if (typeof ctx.$ !== "function") return
   switch (platform) {
     case "darwin": {
       // Try cmux first - native UNUserNotificationCenter, properly attributed
@@ -113,6 +114,7 @@ export async function playSessionNotificationSound(
   platform: Platform,
   soundPath: string
 ): Promise<void> {
+  if (typeof ctx.$ !== "function") return
   switch (platform) {
     case "darwin": {
       const afplayPath = await getAfplayPath()
