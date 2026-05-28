@@ -11,7 +11,7 @@ export const SYMBOLS = {
   skip: color.dim("\u25CB"),
 } as const
 
-export const STATUS_COLORS = {
+export const STATUS_COLORS: Record<string, (text: string) => string> = {
   pass: color.green,
   fail: color.red,
   warn: color.yellow,
